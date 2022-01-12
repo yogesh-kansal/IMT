@@ -29,7 +29,7 @@
 
 ### Edit Highlight -
 <p align="center">
-<img src="./demoImages/home.png"
+<img src="./demoImages/edit.png"
   alt="home"
   width="716" height="410" style="border-style: solid">
 </p>
