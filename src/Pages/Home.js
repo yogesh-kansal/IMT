@@ -4,10 +4,12 @@ import Board from "../Components/Board/Board";
 import Editable from "../Components/Editabled/Editable";
 // import Header from "../Components/Header/Header";
 
-const Home = () => {
+const Home = ({curVal}) => {
   const [boards, setBoards] = useState(
     JSON.parse(localStorage.getItem("Notes-Data")) || []
   );
+
+  // const [cards, setCards] = useState([]);
 
   const [targetCard, setTargetCard] = useState({
     bid: "",
@@ -117,38 +119,85 @@ const Home = () => {
     });
   };
 
+  console.log(curVal);
 
   useEffect(() => {
     localStorage.setItem("Notes-Data", JSON.stringify(boards));
   }, [boards]);
 
+  // useEffect(() => {
+  //   if(curVal === 'sorted') {
+  //     let tmp = [];
+  //     boards.forEach((ele) => {
+  //       tmp.push(...ele.cards);
+        
+  //     });
+
+  //     let newBoard = {
+  //       title: 'Home',
+  //       id: '1',
+  //       cards: tmp
+  //     }
+  //     setCards(newBoard); 
+  //   }
+  // }, [curVal]);
+
   return (
     <div className="app_boards_container">
-      {/* <Header addboardHandler={addboardHandler}/> */}
-        <div className="app_boards">
-        {boards.map((item) => (
+      {
+        curVal == 'grouped'
+        ?<>
+          <div className="app_boards">
+          {boards.map((item) => (
+              <Board
+              key={item.id}
+              board={item}
+              type={'grouped'}
+              addCard={addCardHandler} 
+              removeBoard={() => removeBoard(item.id)}
+              removeCard={removeCard}
+              dragEnded={dragEnded}
+              dragEntered={dragEntered}
+              updateCard={updateCard}
+              />
+          ))}
+          <div className="app_boards_last">
+              <Editable
+              displayClass="app_boards_add-board"
+              editClass="app_boards_add-board_edit"
+              placeholder="Enter Board Name"
+              text="Add Board"
+              buttonText="Add Board"
+              onSubmit={addboardHandler}
+              />
+          </div>
+        </div>
+        </>
+        :
+        curVal === 'sorted'
+        ?
+          <div className="">
+              <Board
+              board={boards}
+              type = {'sorted'}
+              removeCard={removeCard}
+              dragEnded={dragEnded}
+              dragEntered={dragEntered}
+              updateCard={updateCard}
+              />
+          </div>
+        :
+          <div className="">
             <Board
-            key={item.id}
-            board={item}
-            addCard={addCardHandler}
-            removeBoard={() => removeBoard(item.id)}
-            removeCard={removeCard}
-            dragEnded={dragEnded}
-            dragEntered={dragEntered}
-            updateCard={updateCard}
-            />
-        ))}
-        <div className="app_boards_last">
-            <Editable
-            displayClass="app_boards_add-board"
-            editClass="app_boards_add-board_edit"
-            placeholder="Enter Board Name"
-            text="Add Board"
-            buttonText="Add Board"
-            onSubmit={addboardHandler}
+              board={boards}
+              type = {'standard'}
+              removeCard={removeCard}
+              dragEnded={dragEnded}
+              dragEntered={dragEntered}
+              updateCard={updateCard}
             />
         </div>
-        </div>
+        }
     </div>
   );
 }

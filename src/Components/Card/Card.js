@@ -12,7 +12,6 @@ function Card(props) {
 
   const { id, title, date, labels, desc } = props.card;
 
-  console.log(props)
 
   const formatDate = (value) => {
     if (!value) return "";

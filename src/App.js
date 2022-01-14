@@ -2,16 +2,19 @@ import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Home from "./Pages/Home";
+import Header from "./Components/Header/Header";
+import { useState } from "react/cjs/react.development";
 
 function App() {
+  const [curVal, setVal] = useState('grouped');
 
   return (
     <div className="app">
       <div className="app_nav">
-        <h2>Messaging / <span>Affinity Map</span></h2>
+        <Header setVal = {setVal}/>
       </div>
 
-      <Home />
+      <Home curVal = {curVal}/>
     </div>
   );
 }
